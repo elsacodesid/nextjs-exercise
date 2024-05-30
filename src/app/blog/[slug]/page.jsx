@@ -19,11 +19,17 @@ const SinglePost = async ({ params }) => {
   const post = await getPost(slug);
   return (
     <div className={styles.container}>
-      <div className={styles.imgContainer}>
-        <Image src="/post.jpg" fill alt="" className={styles.img} />
-      </div>
+      {post.img ? (
+        <div className={styles.imgContainer}>
+          <Image src={post.img} alt="" fill className={styles.img} />
+        </div>
+      ) : (
+        <div className={styles.imgContainer}>
+          <Image src="/post.jpg" alt="" fill className={styles.img} />
+        </div>
+      )}
       <div className={styles.textContainer}>
-        <h1 className={styles.title}>{post?.title}</h1>
+        <h1 className={styles.title}>{post.title}</h1>
         <div className={styles.detail}>
           <Image
             className={styles.avatar}
@@ -34,7 +40,7 @@ const SinglePost = async ({ params }) => {
           />
           {post && (
             <Suspense fallback={<div>Loading...</div>}>
-              <PostUser userId={post.userId} />
+              <PostUser _id={post.userId} />
             </Suspense>
           )}
           <div className={styles.detailText}>
@@ -42,7 +48,7 @@ const SinglePost = async ({ params }) => {
             <span className={styles.detailValue}>01.01.2024</span>
           </div>
         </div>
-        <div className={styles.content}>{post?.body}</div>
+        <div className={styles.content}>{post.desc}</div>
       </div>
     </div>
   );

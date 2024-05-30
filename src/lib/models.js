@@ -45,9 +45,9 @@ const postSchema = new mongoose.Schema(
     img: {
       type: String,
     },
-    userId: {
-      type: String,
-      required: true,
+    userId: {  
+      type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true,
+
     },
     slug: {
       type: String,

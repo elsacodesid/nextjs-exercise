@@ -1,17 +1,18 @@
 import { getUser } from "@/lib/data";
 import styles from "./PostUser.module.css";
 
-const PostUser = async ({ userId }) => {
-  let user;
+const PostUser = async ({ _id }) => {
+  let username;
   try {
-    user = await getUser(userId);
+    username = await getUser(_id);
+
 
   } catch (error) {
     console.error("Failed to fetch user:", error);
-    user = null;
+
   }
 
-  if (!user) {
+  if (!username) {
     return (
       <div className={styles.container}>
         <span className={styles.title}>Author</span>
@@ -23,7 +24,7 @@ const PostUser = async ({ userId }) => {
   return (
     <div className={styles.container}>
       <span className={styles.title}>Author</span>
-      <span className={styles.name}>{user.name}</span>
+      <span className={styles.name}>{username}</span>
     </div>
   );
 };
