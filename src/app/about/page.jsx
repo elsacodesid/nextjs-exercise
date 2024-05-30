@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "./about.module.css"
 
 const AboutPage = () => {
+  // console.log("Let's check where it works")
   return (<div>
     <div className={styles.container}>    
     <div className={styles.textContainer}><h2 className={styles.subtitle}>About Agency</h2><h1 className={styles.title}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, maiores!</h1>
