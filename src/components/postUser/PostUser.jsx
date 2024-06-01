@@ -1,15 +1,16 @@
-import { getUser } from "@/lib/data";
+import { getUser, getUserImg } from "@/lib/data";
 import styles from "./PostUser.module.css";
+import Image from "next/image";
 
 const PostUser = async ({ _id }) => {
   let username;
+  let userImg;
   try {
     username = await getUser(_id);
 
-
+    userImg = await getUserImg(_id);
   } catch (error) {
     console.error("Failed to fetch user:", error);
-
   }
 
   if (!username) {
@@ -23,8 +24,17 @@ const PostUser = async ({ _id }) => {
 
   return (
     <div className={styles.container}>
-      <span className={styles.title}>Author</span>
-      <span className={styles.name}>{username}</span>
+      <Image
+        className={styles.avatar}
+        src={userImg ? userImg : "/avatar.jpg"}
+        alt=""
+        width={50}
+        height={50}
+      />
+      <div className={styles.texts}>
+        <span className={styles.title}>Author</span>
+        <span className={styles.name}>{username}</span>
+      </div>
     </div>
   );
 };

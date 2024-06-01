@@ -13,6 +13,16 @@ import { getPost } from "@/lib/data";
 //   return res.json()
 // }
 
+export const generateMetadata = async ({params}) =>{
+  const { slug } = params;
+  const post = await getPost(slug);
+
+  return {
+    title: post.title,
+    description: post.desc
+  }
+}
+
 const SinglePost = async ({ params }) => {
   const { slug } = params;
   // const post = await getData(slug);
@@ -31,13 +41,7 @@ const SinglePost = async ({ params }) => {
       <div className={styles.textContainer}>
         <h1 className={styles.title}>{post.title}</h1>
         <div className={styles.detail}>
-          <Image
-            className={styles.avatar}
-            src="/avatar.jpg"
-            alt=""
-            width={50}
-            height={50}
-          />
+       
           {post && (
             <Suspense fallback={<div>Loading...</div>}>
               <PostUser _id={post.userId} />
@@ -45,7 +49,7 @@ const SinglePost = async ({ params }) => {
           )}
           <div className={styles.detailText}>
             <span className={styles.detailTitle}>Published</span>
-            <span className={styles.detailValue}>01.01.2024</span>
+            <span className={styles.detailValue}>{post.createdAt.toString().slice(4,16)}</span>
           </div>
         </div>
         <div className={styles.content}>{post.desc}</div>
