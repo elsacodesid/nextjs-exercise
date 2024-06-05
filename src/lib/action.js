@@ -13,7 +13,7 @@ export const addPost = async (previousState, formData) => {
   // const slug = formData.get("slug");
   const { title, desc, slug, userId } = Object.fromEntries(formData);
   try {
-    connectToDb();
+    await connectToDb();
     const newPost = new Post({
       title,
       desc,
@@ -24,24 +24,23 @@ export const addPost = async (previousState, formData) => {
     console.log("saved to db");
     revalidatePath("/blog");
     revalidatePath("/admin");
+    return { success: true };
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong!" };
   }
 };
-export const deletePost = async (previousState, formData) => {
-  "use server";
-  // const title = formData.get("title");
-  // const desc = formData.get("desc");
-  // const slug = formData.get("slug");
+export const deletePost = async (formData) => {
+ 
   const { _id } = Object.fromEntries(formData);
   try {
-    connectToDb();
+    await connectToDb();
 
     await Post.findByIdAndDelete(_id);
     console.log("deleted from db");
     revalidatePath("/blog");
     revalidatePath("/admin");
+    return { success: true };
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong!" };
@@ -50,8 +49,8 @@ export const deletePost = async (previousState, formData) => {
 export const addUser = async (previousState, formData) => {
   const { username, email, password, img } = Object.fromEntries(formData);
   try {
-    connectToDb();
-    const newPost = new User({
+    await connectToDb();
+    const newUser = new User({
       username,
       email,
       password,
@@ -60,6 +59,7 @@ export const addUser = async (previousState, formData) => {
     await newUser.save();
     console.log("saved to db");
     revalidatePath("/admin");
+    return { success: true };
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong!" };
@@ -68,11 +68,12 @@ export const addUser = async (previousState, formData) => {
 export const deleteUser = async (formData) => {
   const { _id } = Object.fromEntries(formData);
   try {
-    connectToDb();
+    await connectToDb();
     await Post.deleteMany({ userId: _id });
     await User.findByIdAndDelete(_id);
     console.log("deleted from db");
     revalidatePath("/admin");
+    return { success: true };
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong!" };
@@ -95,7 +96,7 @@ export const handleRegister = async (previousState, formData) => {
     return { error: "Passwords do not match!" };
   }
   try {
-    connectToDb();
+    await connectToDb();
     const user = await User.findOne({ username });
     if (user) {
       return { error: "Username already exists" };
