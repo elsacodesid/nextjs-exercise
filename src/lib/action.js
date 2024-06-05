@@ -6,7 +6,7 @@ import { connectToDb } from "./utils";
 import { signIn, signOut } from "./auth";
 import bcrypt from "bcryptjs";
 
-export const addPost = async (formData) => {
+export const addPost = async (previousState, formData) => {
   "use server";
   // const title = formData.get("title");
   // const desc = formData.get("desc");
@@ -23,12 +23,13 @@ export const addPost = async (formData) => {
     await newPost.save();
     console.log("saved to db");
     revalidatePath("/blog");
+    revalidatePath("/admin");
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong!" };
   }
 };
-export const deletePost = async (formData) => {
+export const deletePost = async (previousState, formData) => {
   "use server";
   // const title = formData.get("title");
   // const desc = formData.get("desc");
@@ -40,6 +41,38 @@ export const deletePost = async (formData) => {
     await Post.findByIdAndDelete(_id);
     console.log("deleted from db");
     revalidatePath("/blog");
+    revalidatePath("/admin");
+  } catch (error) {
+    console.log(error);
+    return { error: "Something went wrong!" };
+  }
+};
+export const addUser = async (previousState, formData) => {
+  const { username, email, password, img } = Object.fromEntries(formData);
+  try {
+    connectToDb();
+    const newPost = new User({
+      username,
+      email,
+      password,
+      img,
+    });
+    await newUser.save();
+    console.log("saved to db");
+    revalidatePath("/admin");
+  } catch (error) {
+    console.log(error);
+    return { error: "Something went wrong!" };
+  }
+};
+export const deleteUser = async (formData) => {
+  const { _id } = Object.fromEntries(formData);
+  try {
+    connectToDb();
+    await Post.deleteMany({ userId: _id });
+    await User.findByIdAndDelete(_id);
+    console.log("deleted from db");
+    revalidatePath("/admin");
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong!" };
@@ -88,9 +121,8 @@ export const login = async (previousState, formData) => {
 
   try {
     await signIn("credentials", { username, password, redirect: false });
-   
-    return { success: true };
 
+    return { success: true };
   } catch (error) {
     console.log(error);
     if (error.message === "CredentialsSignin") {

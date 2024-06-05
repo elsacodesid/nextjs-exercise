@@ -1,43 +1,45 @@
 .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .wrapper {
-    width: 500px;
-    background-color: rgba(97, 97, 97, 0.411);
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    gap: 30px;
-    border-radius: 10px;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .form input,
-  .form textarea {
-    padding: 20px;
-    border-radius: 5px;
-    background: white;
-    color: black;
-    border: none;
-    outline: none;
-  }
-  
-  .form button {
-    padding: 20px;
-    background-color: var(--btn);
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper {
+  width: 500px;
+  background-color: rgba(97, 97, 97, 0.411);
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 30px;
+  border-radius: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form input,
+.form textarea {
+  padding: 20px;
+  border-radius: 5px;
+  background: white;
+  color: black;
+  border: none;
+  outline: none;
+}
+.form .gitBtn {
+  background-color: rgb(161, 195, 223);
+  color: black;
+}
+.form button {
+  padding: 20px;
+  background-color: var(--btn);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
